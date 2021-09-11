@@ -9,7 +9,7 @@ SeqList<T>::SeqList(int sz) {
         last = -1;
         data = new T[maxSize];
         if (data == NULL) {
-            cerr << "´æ´¢·ÖÅä´íÎó£¡" << endl;
+            cerr << "å­˜å‚¨åˆ†é…é”™è¯¯ï¼" << endl;
             exit(1);
         }
     }
@@ -22,7 +22,7 @@ SeqList<T>::SeqList(SeqList<T>& L) {
     T value;
     data = new T[maxSize];
     if (data == NULL) {
-        cerr << "´æ´¢·ÖÅä´íÎó£¡" << endl;
+        cerr << "å­˜å‚¨åˆ†é…é”™è¯¯ï¼" << endl;
         exit(1);
     }
     for (int i = 0; i <= last + 1; i++) {
@@ -49,4 +49,41 @@ int SeqList<T>::Locate(int i)const {
     else {
         return 0;
     }
+}
+
+template<class T>
+bool SeqList<T>::Insert(int i,T&x){
+	//full list,can't insert
+	if(last==maxSize-1){
+		return false;
+	}
+	//wrong number i
+	if(i<0||i>last+1){
+		return false;
+	}
+	//æ•´ä½“åŽç§»ï¼Œç©ºå‡ºdata[i]
+	for(int j=last;j>=i;j--){
+		data[j+1]=data[j];
+	}
+	
+	last++;//list lenth +1
+
+	return true;
+}
+
+template<class T>
+bool SeqList<T>::Remove(int i,T&x){
+	//empty list,nothing to remove
+	if(last==-1){
+		return false;
+	}
+	//wrong i
+	if(i<0||i>last+1){
+		return false;
+	}
+	
+	for(int j=i;j<=last;j++){
+		data[j-1]=data[j];
+	}
+	return true;
 }
