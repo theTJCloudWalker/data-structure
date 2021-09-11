@@ -87,3 +87,38 @@ bool SeqList<T>::Remove(int i,T&x){
 	}
 	return true;
 }
+
+template<class T>
+void SeqList<T>::input(){
+	cout<<"开始建立顺序表，请输入表中元素个数：";
+	while(1){
+		cin>>last;
+		if(last<=maxSize-1){
+			break;
+		}
+		cout<<"表元素个数输入有误，范围不能超过"<<maxSize-1<<":";
+	}
+	
+	for(int i=0;i<=last ;i++){
+		cin>>data[i];
+		cout<<i+1<<endl;
+	}
+}
+
+template<class T>
+void SeqList<T>::output(){
+	cout<<"顺序表当前元素的最后位置为："<<last<<endl;
+	for(int i=0;i<=last;i++){
+	    cout<<"#"<<i+1<<":"<<data[i]<<endl;
+	}
+}
+
+template<class T>
+SeqList<T>SeqList<T>::operator=(SeqList<T>&L){
+	maxSize=L.maxSize;
+	last=L.last;
+	for(int i=0;i<=last;i++){
+		data[i]=L.data[i];
+	}
+}
+
