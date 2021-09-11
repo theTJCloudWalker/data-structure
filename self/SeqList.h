@@ -16,7 +16,7 @@ public:
 	SeqList(int sz = defaultSize);
 	SeqList(SeqList<T>& L);
 	~SeqList() { 
-		delete[]data; 
+		delete []data; 
 	}
 	int Size()const{
 		return maxSize;
@@ -42,13 +42,15 @@ public:
 	}
 	bool Insert(int i, T& x);
 	bool Remove(int i, T& x);
-	bool IsEmpty() {
+	bool IsEmpty() const{
 		return last == -1 ? true : false;
 	}
-	bool IsFull() {
+	bool IsFull() const{
 		return last == maxSize - 1 ? true : false;
 	}
 	void input();
 	void output();
-	SeqList<T>operator=(SqList<T>& L);
+	void selectSort();
+	void bubbleSort();
+	SeqList<T>operator=(SeqList<T>& L);
 };

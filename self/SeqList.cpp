@@ -2,6 +2,8 @@
 
 #include"SeqList.h"
 
+using namespace std;
+
 template<class T>
 SeqList<T>::SeqList(int sz) {
     if (sz > 0) {
@@ -9,7 +11,7 @@ SeqList<T>::SeqList(int sz) {
         last = -1;
         data = new T[maxSize];
         if (data == NULL) {
-            cerr << "å­˜å‚¨åˆ†é…é”™è¯¯ï¼" << endl;
+            cerr << "´æ´¢·ÖÅä´íÎó£¡" << endl;
             exit(1);
         }
     }
@@ -22,13 +24,38 @@ SeqList<T>::SeqList(SeqList<T>& L) {
     T value;
     data = new T[maxSize];
     if (data == NULL) {
-        cerr << "å­˜å‚¨åˆ†é…é”™è¯¯ï¼" << endl;
+        cerr << "´æ´¢·ÖÅä´íÎó£¡" << endl;
         exit(1);
     }
-    for (int i = 0; i <= last + 1; i++) {
+    for (int i = 1; i < last+1 ; i++) {
         L.getData(i, value);
         data[i - 1] = value;
     }
+}
+
+template<class T>
+void SeqList<T>::reSize(int newSize) {
+	if (newSize <= 0) {
+		cerr << "ÎÞÐ§µÄÊý×é´óÐ¡" << endl;
+		return;
+	}
+	if (newSize != maxSize) {
+		T* newArray = new T[newSize];
+		if (newArray == NULL) {
+			cerr << "´æ´¢·ÖÅä´íÎó" << endl;
+			exit(1);
+		}
+		int n = last + 1;
+		T* srcptr = data;
+		T* desptr = newArray;
+		while (n--) {
+			*desptr++ = *srcptr++;
+		}
+		delete[]data;
+		data = newArray;
+		maxSize = newSize;
+	}
+	return;
 }
 
 template<class T>
@@ -52,73 +79,112 @@ int SeqList<T>::Locate(int i)const {
 }
 
 template<class T>
-bool SeqList<T>::Insert(int i,T&x){
+bool SeqList<T>::Insert(int i, T& x) {
 	//full list,can't insert
-	if(last==maxSize-1){
+	if (last == maxSize - 1) {
 		return false;
 	}
 	//wrong number i
-	if(i<0||i>last+1){
+	if (i<0 || i>last + 1) {
 		return false;
 	}
-	//æ•´ä½“åŽç§»ï¼Œç©ºå‡ºdata[i]
-	for(int j=last;j>=i;j--){
-		data[j+1]=data[j];
+	//ÕûÌåºóÒÆ£¬¿Õ³ödata[i]
+	for (int j = last; j >= i; j--) {
+		data[j + 1] = data[j];
 	}
-	
+
 	last++;//list lenth +1
 
 	return true;
 }
 
 template<class T>
-bool SeqList<T>::Remove(int i,T&x){
+bool SeqList<T>::Remove(int i, T& x) {
 	//empty list,nothing to remove
-	if(last==-1){
+	if (last == -1) {
 		return false;
 	}
 	//wrong i
-	if(i<0||i>last+1){
+	if (i<0 || i>last + 1) {
 		return false;
 	}
-	
-	for(int j=i;j<=last;j++){
-		data[j-1]=data[j];
+
+	for (int j = i; j <= last; j++) {
+		data[j - 1] = data[j];
 	}
 	return true;
 }
 
 template<class T>
-void SeqList<T>::input(){
-	cout<<"å¼€å§‹å»ºç«‹é¡ºåºè¡¨ï¼Œè¯·è¾“å…¥è¡¨ä¸­å…ƒç´ ä¸ªæ•°ï¼š";
-	while(1){
-		cin>>last;
-		if(last<=maxSize-1){
+void SeqList<T>::input() {
+	cout << "¿ªÊ¼½¨Á¢Ë³Ðò±í£¬ÇëÊäÈë±íÖÐÔªËØ¸öÊý£º";
+	while (1) {
+		cin >> last;
+		if (last <= maxSize - 1) {
 			break;
 		}
-		cout<<"è¡¨å…ƒç´ ä¸ªæ•°è¾“å…¥æœ‰è¯¯ï¼ŒèŒƒå›´ä¸èƒ½è¶…è¿‡"<<maxSize-1<<":";
+		cout << "±íÔªËØ¸öÊýÊäÈëÓÐÎó£¬·¶Î§²»ÄÜ³¬¹ý" << maxSize - 1 << ":";
 	}
-	
-	for(int i=0;i<=last ;i++){
-		cin>>data[i];
-		cout<<i+1<<endl;
+
+	for (int i = 0; i < last; i++) {
+		cin >> data[i];
+		cout << i + 1 << endl;
 	}
 }
 
 template<class T>
-void SeqList<T>::output(){
-	cout<<"é¡ºåºè¡¨å½“å‰å…ƒç´ çš„æœ€åŽä½ç½®ä¸ºï¼š"<<last<<endl;
-	for(int i=0;i<=last;i++){
-	    cout<<"#"<<i+1<<":"<<data[i]<<endl;
+void SeqList<T>::output() {
+	cout << "Ë³Ðò±íµ±Ç°ÔªËØµÄ×îºóÎ»ÖÃÎª£º" << last << endl;
+	for (int i = 0; i < last; i++) {
+		cout << "#" << i + 1 << ":" << data[i] << endl;
 	}
 }
 
 template<class T>
-SeqList<T>SeqList<T>::operator=(SeqList<T>&L){
-	maxSize=L.maxSize;
-	last=L.last;
-	for(int i=0;i<=last;i++){
-		data[i]=L.data[i];
+void SeqList<T>::selectSort() {
+	int minimum;
+	for (int i = 0; i <= last; i++) {
+		minimum = i;
+		for (int j = i; j < last; j++) {
+			if (data[j] < data[minimum]) {
+				minimum = j;
+			}
+		}
+		if (minimum != i) {
+			int temp = data[i];
+			data[i] = data[minimum];
+			data[minimum] = temp;
+		}
 	}
+	return;
+}
+
+template<class T>
+void SeqList<T>::bubbleSort() {
+	T temp;
+	for (int i = 0; i <= last; i++) {
+		for (int j = 0; j < last-i-1; j++) {
+			if (data[j] > data[j + 1]) {
+				temp = data[j];
+				data[j] = data[j + 1];
+				data[j + 1] = temp;
+			}
+		}
+	}
+	return;
+}
+
+template<class T>
+SeqList<T> SeqList<T>::operator=(SeqList<T>& L) {
+	maxSize = L.maxSize;
+	last = L.last;
+	T value;
+	//data = new T[maxSize];
+
+	for (int i = 1; i <= last; i++) {
+		L.getData(i, value);
+		data[i-1] = value;
+	}
+	//return this;
 }
 
