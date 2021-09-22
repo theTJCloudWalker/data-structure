@@ -1,4 +1,7 @@
 #include<iostream>
+#include<stdlib.h>
+#include<time.h>
+#include<random>
 
 using namespace std;
 
@@ -129,14 +132,33 @@ void MergeSort(int arr[], int len,int temp[],int begin,int end) {
 
 }
 
+void RandomNumber(int arr[],int len) {
+	random_device rd;
+	default_random_engine eng(rd());
+	uniform_int_distribution<int>distr(0, 2147483647);
+
+	for (int i = 0; i < len; i++) {
+		arr[i] = distr(eng);
+	}
+
+	return;
+}
+
 int main() {
+	srand((unsigned)time(NULL));
 	int arr[] = { 165,465,16,123,19,2123,14,54,12,1000,1,564,5,1,4,64,31,32,56,4,56,123,54 };
 	//BubbleSort(arr, 22);
 	//SelectSort(arr, 23);
 	//InsertSort(arr, 23);
 	//ShellSort(arr, 23);
-	QuickSort(0, 23, arr);
-	for (int i = 0; i < 23; i++)
-		cout << "#" << i+1 << " " << arr[i] << endl;
+	//QuickSort(0, 23, arr);
+	
+	int len;
+	cin >> len;
+	int* p = new int[len];
+	RandomNumber(p,len);
+	BubbleSort(p, len);
+	for (int i = 0; i < len; i++)
+		cout << "#" << i+1 << " " << p[i] << endl;
 	return 0;
 }
