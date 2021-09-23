@@ -8,7 +8,7 @@ using namespace std;
 void BubbleSort(int arr[],int len) {
 	//len = number of the elements
 	if (arr == NULL || len <= 0) {
-		cerr << "ÎÞÐ§²ÎÊý´«µÝ" << endl;
+		cerr << "æ— æ•ˆå‚æ•°ä¼ é€’" << endl;
 		return;
 	}
 	for (int i = 0; i < len-1 ; i++) {
@@ -24,7 +24,7 @@ void BubbleSort(int arr[],int len) {
 
 void SelectSort(int arr[], int len) {
 	if (arr == NULL || len <= 0) {
-		cerr << "ÎÞÐ§²ÎÊý´«µÝ" << endl;
+		cerr << "æ— æ•ˆå‚æ•°ä¼ é€’" << endl;
 		return;
 	}
 	for (int i = 0; i < len; i++) {
@@ -44,11 +44,11 @@ void SelectSort(int arr[], int len) {
 
 void InsertSort(int arr[], int len) {
 	if (arr == NULL || len <= 0) {
-		cerr << "ÎÞÐ§²ÎÊý´«µÝ" << endl;
+		cerr << "æ— æ•ˆå‚æ•°ä¼ é€’" << endl;
 		return;
 	}
-	for (int i = 1; i < len; i++) {        //µÚÒ»¸öÊý×Ö±ØÈ»ÓÐÐò
-		int temp = arr[i];                 //È¡³öµÚi¸öÊý£¬ÓëÇ°i-1ÓÐÐòÁÐ±È½Ï
+	for (int i = 1; i < len; i++) {        //ç¬¬ä¸€ä¸ªæ•°å­—å¿…ç„¶æœ‰åº
+		int temp = arr[i];                 //å–å‡ºç¬¬iä¸ªæ•°ï¼Œä¸Žå‰i-1æœ‰åºåˆ—æ¯”è¾ƒ
 		int j = i - 1;                     //1 2 3 * * * i-1(arr[j]) i(temp) * * len
 		while (j >= 0 && arr[j] > temp) {  
 			arr[j + 1] = arr[j];           //1 2 3 * * * i-1 i-1 * * len
@@ -60,7 +60,7 @@ void InsertSort(int arr[], int len) {
 
 void ShellSort(int arr[], int len) {
 	if (arr == NULL || len <= 0) {
-		cerr << "ÎÞÐ§²ÎÊý´«µÝ" << endl;
+		cerr << "æ— æ•ˆå‚æ•°ä¼ é€’" << endl;
 		return;
 	}
 
@@ -93,7 +93,7 @@ void QuickSort(int L,int R,int arr[]) {
 	}
 	
 	int left = L, right = R - 1;
-	int pivot = arr[left];        //»ù×¼Öù
+	int pivot = arr[left];        //åŸºå‡†æŸ±
 	while (left < right) {
 		while (left < right && arr[right] >= pivot) {
 			right--;
@@ -115,22 +115,57 @@ void QuickSort(int L,int R,int arr[]) {
 	QuickSort(right + 1, R, arr);
 }
 
+void Merge(int arr[],int begin,int end) {
 
-void MergeSort(int arr[], int len,int temp[],int begin,int end) {
-	if (arr == NULL || len <= 0){
-		cerr << "ÎÞÐ§²ÎÊý´«µÝ" << endl;
-		return;
+	int* tempArr = new int[end + 1]();
+	
+	int middle = (begin + end) / 2;
+	int p1 = begin;
+	int p2 = middle + 1;
+	int p = 0;
+
+	while (p1 <= middle && p2 <= end) {
+		if (arr[p1] <= arr[p2]) {
+			tempArr[p++] = arr[p1++];
+		}
+		else {
+			tempArr[p++] = arr[p2++];
+		}
+	}
+
+	while (p1 <= middle) {
+		tempArr[p++] = arr[p1++];
+	}
+	while (p2 <= end) {
+		tempArr[p++] = arr[p2++];
+	}
+
+	for (int i = 0; i <= end; i++) {
+		arr[i + begin] = tempArr[i];
+	}
+	 
+	delete[] tempArr;
+	return;
+}
+
+void MergeSort(int arr[],int begin,int end) {
+	if (arr == NULL || end < 0) {
+		cerr << "æ— æ•ˆå‚æ•°ä¼ é€’" << endl;
+		exit(1);
 	}
 		
-	if (end == begin)
+	if (end <= begin)
 		return;
 
-	int middle = ((end - begin) / 2) + begin;
-
+	int middle = (end + begin) / 2;
+	   
+	MergeSort(arr, begin, middle);
+	MergeSort(arr, middle + 1, end);
 	
-
+	Merge(arr, begin, end);
 
 }
+
 
 void RandomNumber(int arr[],int len) {
 	random_device rd;
