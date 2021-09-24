@@ -166,6 +166,44 @@ void MergeSort(int arr[],int begin,int end) {
 
 }
 
+//下沉调整
+void DownAdjust(int arr[], int parentIndex, int len) {
+    int temp = arr[parentIndex];
+    int childIndex = arr[childIndex] * 2 + 1;
+
+    while (childIndex < len) {
+      if (childIndex + 1 < len && arr[childIndex + 1] > arr[childIndex]) {
+            childIndex++;
+      }
+
+      if (temp > arr[childIndex]) {
+          break;
+      }
+
+      arr[parentIndex] = arr[childIndex];
+      parentIndex = childIndex;
+      childIndex=2*parentIndex+1;
+    }
+
+    arr[parentIndex] =temp;
+
+    
+}
+
+
+void Sort(int arr[],int len) {
+  for (int i = len / 2; i >= 0; i--) {
+    DownAdjust(arr,i,len);
+  }
+
+  for (int i = len - 1; i > 0; i--) {
+    int temp = arr[0];
+    arr[0] = arr[i];
+    arr[i] = temp;
+    DownAdjust(arr,0,i);
+  }
+}
+
 
 void RandomNumber(int arr[],int len) {
 	random_device rd;
