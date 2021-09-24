@@ -8,7 +8,7 @@ using namespace std;
 void BubbleSort(int arr[],int len) {
 	//len = number of the elements
 	if (arr == NULL || len <= 0) {
-		cerr << "æ— æ•ˆå‚æ•°ä¼ é€’" << endl;
+		cerr << "ÎÞÐ§²ÎÊý´«µÝ" << endl;
 		return;
 	}
 	for (int i = 0; i < len-1 ; i++) {
@@ -24,7 +24,7 @@ void BubbleSort(int arr[],int len) {
 
 void SelectSort(int arr[], int len) {
 	if (arr == NULL || len <= 0) {
-		cerr << "æ— æ•ˆå‚æ•°ä¼ é€’" << endl;
+		cerr << "ÎÞÐ§²ÎÊý´«µÝ" << endl;
 		return;
 	}
 	for (int i = 0; i < len; i++) {
@@ -44,11 +44,11 @@ void SelectSort(int arr[], int len) {
 
 void InsertSort(int arr[], int len) {
 	if (arr == NULL || len <= 0) {
-		cerr << "æ— æ•ˆå‚æ•°ä¼ é€’" << endl;
+		cerr << "ÎÞÐ§²ÎÊý´«µÝ" << endl;
 		return;
 	}
-	for (int i = 1; i < len; i++) {        //ç¬¬ä¸€ä¸ªæ•°å­—å¿…ç„¶æœ‰åº
-		int temp = arr[i];                 //å–å‡ºç¬¬iä¸ªæ•°ï¼Œä¸Žå‰i-1æœ‰åºåˆ—æ¯”è¾ƒ
+	for (int i = 1; i < len; i++) {        //µÚÒ»¸öÊý×Ö±ØÈ»ÓÐÐò
+		int temp = arr[i];                 //È¡³öµÚi¸öÊý£¬ÓëÇ°i-1ÓÐÐòÁÐ±È½Ï
 		int j = i - 1;                     //1 2 3 * * * i-1(arr[j]) i(temp) * * len
 		while (j >= 0 && arr[j] > temp) {  
 			arr[j + 1] = arr[j];           //1 2 3 * * * i-1 i-1 * * len
@@ -60,7 +60,7 @@ void InsertSort(int arr[], int len) {
 
 void ShellSort(int arr[], int len) {
 	if (arr == NULL || len <= 0) {
-		cerr << "æ— æ•ˆå‚æ•°ä¼ é€’" << endl;
+		cerr << "ÎÞÐ§²ÎÊý´«µÝ" << endl;
 		return;
 	}
 
@@ -93,7 +93,7 @@ void QuickSort(int L,int R,int arr[]) {
 	}
 	
 	int left = L, right = R - 1;
-	int pivot = arr[left];        //åŸºå‡†æŸ±
+	int pivot = arr[left];        //»ù×¼Öù
 	while (left < right) {
 		while (left < right && arr[right] >= pivot) {
 			right--;
@@ -140,7 +140,7 @@ void Merge(int arr[],int begin,int end) {
 		tempArr[p++] = arr[p2++];
 	}
 
-	for (int i = 0; i <= end; i++) {
+	for (int i = 0; i <= end-begin; i++) {
 		arr[i + begin] = tempArr[i];
 	}
 	 
@@ -150,7 +150,7 @@ void Merge(int arr[],int begin,int end) {
 
 void MergeSort(int arr[],int begin,int end) {
 	if (arr == NULL || end < 0) {
-		cerr << "æ— æ•ˆå‚æ•°ä¼ é€’" << endl;
+		cerr << "ÎÞÐ§²ÎÊý´«µÝ" << endl;
 		exit(1);
 	}
 		
@@ -166,44 +166,77 @@ void MergeSort(int arr[],int begin,int end) {
 
 }
 
-//ä¸‹æ²‰è°ƒæ•´
+//ÏÂ³Áµ÷Õû
 void DownAdjust(int arr[], int parentIndex, int len) {
-    int temp = arr[parentIndex];
-    int childIndex = arr[childIndex] * 2 + 1;
+	int temp = arr[parentIndex];
+	int childIndex = parentIndex * 2 + 1;
 
-    while (childIndex < len) {
-      if (childIndex + 1 < len && arr[childIndex + 1] > arr[childIndex]) {
-            childIndex++;
-      }
+	while (childIndex < len) {
+		if (childIndex + 1 < len && arr[childIndex + 1] > arr[childIndex]) {
+			childIndex++;
+		}
 
-      if (temp > arr[childIndex]) {
-          break;
-      }
+		if (temp > arr[childIndex]) {
+			break;
+		}
 
-      arr[parentIndex] = arr[childIndex];
-      parentIndex = childIndex;
-      childIndex=2*parentIndex+1;
-    }
+		arr[parentIndex] = arr[childIndex];
+		parentIndex = childIndex;
+		childIndex = 2 * parentIndex + 1;
+	}
 
-    arr[parentIndex] =temp;
+	arr[parentIndex] = temp;
 
-    
+
 }
 
 
-void Sort(int arr[],int len) {
-  for (int i = len / 2; i >= 0; i--) {
-    DownAdjust(arr,i,len);
-  }
+void HeapSort(int arr[], int len) {
+	for (int i = len / 2; i >= 0; i--) {
+		DownAdjust(arr, i, len);
+	}
 
-  for (int i = len - 1; i > 0; i--) {
-    int temp = arr[0];
-    arr[0] = arr[i];
-    arr[i] = temp;
-    DownAdjust(arr,0,i);
-  }
+	for (int i = len - 1; i > 0; i--) {
+		int temp = arr[0];
+		arr[0] = arr[i];
+		arr[i] = temp;
+		DownAdjust(arr, 0, i);
+	}
 }
 
+//¼ÆÊýÅÅÐò
+void CountSort(int arr[], int len, int exp) {
+	int* result = new int[len];
+	int bucket[10] = { 0 };
+
+	for (int i = 0; i < len; i++) {
+		bucket[(arr[i] / exp) % 10]++;
+	}
+	for (int i = 1; i < 10; i++) {
+		bucket[i] = bucket[i] + bucket[i - 1];
+	}
+	for (int i = len - 1; i >= 0; i--) {
+		int tempEXP = (arr[i] / exp) % 10;
+		result[bucket[tempEXP] - 1] = arr[i];
+		bucket[tempEXP]--;
+	}
+	for (int i = 0; i < len; i++) {
+		arr[i] = result[i];
+	}
+	delete[]result;
+	//memcpy(arr, result, len * sizeof(int));
+}
+
+//»ùÊýÅÅÐò
+void RadixSort(int arr[], int len) {
+	int max = 0l;
+	for (int i = 0; i < len; i++) {
+		max = max > arr[i] ? max : arr[i];
+	}
+	for (int exp = 1; max / exp > 0; exp *= 10) {
+		CountSort(arr, len, exp);
+	}
+}
 
 void RandomNumber(int arr[],int len) {
 	random_device rd;
@@ -218,20 +251,27 @@ void RandomNumber(int arr[],int len) {
 }
 
 int main() {
-	srand((unsigned)time(NULL));
-	int arr[] = { 165,465,16,123,19,2123,14,54,12,1000,1,564,5,1,4,64,31,32,56,4,56,123,54 };
+	//srand((unsigned)time(NULL));
+	int arr[] = { 165,465,16,123,
+		19,2123,14,54,
+		12,1000,1,564,
+		5,1,4,64,
+		31,32,56,4,
+		56,123,54 };
 	//BubbleSort(arr, 22);
 	//SelectSort(arr, 23);
 	//InsertSort(arr, 23);
 	//ShellSort(arr, 23);
 	//QuickSort(0, 23, arr);
-	
-	int len;
+	//HeapSort(arr, 23);
+	RadixSort(arr, 23);
+	/*int len;
 	cin >> len;
 	int* p = new int[len];
 	RandomNumber(p,len);
-	BubbleSort(p, len);
-	for (int i = 0; i < len; i++)
-		cout << "#" << i+1 << " " << p[i] << endl;
+	BubbleSort(p, len);*/
+	//MergeSort(arr, 0, 22);
+	for (int i = 0; i < 23; i++)
+		cout << "#" << i+1 << " " << arr[i] << endl;
 	return 0;
 }
