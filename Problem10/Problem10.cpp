@@ -5,20 +5,47 @@
 
 using namespace std;
 
-void BubbleSort(int arr[],int len) {
+void BubbleSort(int arr[], int len) {
 	//len = number of the elements
 	if (arr == NULL || len <= 0) {
 		cerr << "无效参数传递" << endl;
 		return;
 	}
-	for (int i = 0; i < len-1 ; i++) {
+	for (int i = 0; i < len - 1; i++) {
 		for (int j = 1; j < len - i; j++) {
-			if (arr[j]<arr[j-1]) {
+			if (arr[j] < arr[j - 1]) {
 				int temp = arr[j - 1];
 				arr[j - 1] = arr[j];
 				arr[j] = temp;
 			}
 		}
+	}
+}
+
+void ImprovedBubbleSort(int arr[], int len) {
+	//len = number of the elements
+	if (arr == NULL || len <= 0) {
+		cerr << "无效参数传递" << endl;
+		return;
+	}
+	bool exchange;
+	int newPosition, position = len - 1;
+	for (int i = 1; i < len ; i++) {
+		exchange = false;
+		newPosition = 0;
+		for (int j = len - 1; j >= i; j--) {
+			if (arr[j] < arr[j - 1]) {
+				int temp = arr[j - 1];
+				arr[j - 1] = arr[j];
+				arr[j] = temp;
+				exchange = true;
+				newPosition = j;
+			}
+		}
+		if (exchange == false) {
+			return;
+		}
+		position = newPosition;
 	}
 }
 
@@ -50,11 +77,11 @@ void InsertSort(int arr[], int len) {
 	for (int i = 1; i < len; i++) {        //第一个数字必然有序
 		int temp = arr[i];                 //取出第i个数，与前i-1有序列比较
 		int j = i - 1;                     //1 2 3 * * * i-1(arr[j]) i(temp) * * len
-		while (j >= 0 && arr[j] > temp) {  
+		while (j >= 0 && arr[j] > temp) {
 			arr[j + 1] = arr[j];           //1 2 3 * * * i-1 i-1 * * len
 			j--;
 		}
-		arr[j + 1] = temp;                
+		arr[j + 1] = temp;
 	}
 }
 
@@ -87,11 +114,11 @@ void ShellSort(int arr[], int len) {
 
 
 
-void QuickSort(int L,int R,int arr[]) {
+void QuickSort(int L, int R, int arr[]) {
 	if (L >= R || L < 0 || R < 0) {
 		return;
 	}
-	
+
 	int left = L, right = R - 1;
 	int pivot = arr[left];      //基准柱
 	while (left < right) {
@@ -111,14 +138,14 @@ void QuickSort(int L,int R,int arr[]) {
 	if (left >= right) {
 		arr[left] = pivot;
 	}
-	QuickSort(L, right , arr);
+	QuickSort(L, right, arr);
 	QuickSort(right + 1, R, arr);
 }
 
-void Merge(int arr[],int begin,int end) {
+void Merge(int arr[], int begin, int end) {
 
 	int* tempArr = new int[end + 1]();
-	
+
 	int middle = (begin + end) / 2;
 	int p1 = begin;
 	int p2 = middle + 1;
@@ -140,28 +167,28 @@ void Merge(int arr[],int begin,int end) {
 		tempArr[p++] = arr[p2++];
 	}
 
-	for (int i = 0; i <= end-begin; i++) {
+	for (int i = 0; i <= end - begin; i++) {
 		arr[i + begin] = tempArr[i];
 	}
-	 
+
 	delete[] tempArr;
 	return;
 }
 
-void MergeSort(int arr[],int begin,int end) {
+void MergeSort(int arr[], int begin, int end) {
 	if (arr == NULL || end < 0) {
 		cerr << "无效参数传递" << endl;
 		exit(1);
 	}
-		
+
 	if (end <= begin)
 		return;
 
 	int middle = (end + begin) / 2;
-	   
+
 	MergeSort(arr, begin, middle);
 	MergeSort(arr, middle + 1, end);
-	
+
 	Merge(arr, begin, end);
 
 }
@@ -238,7 +265,7 @@ void RadixSort(int arr[], int len) {
 	}
 }
 
-void RandomNumber(int arr[],int len) {
+void RandomNumber(int arr[], int len) {
 	random_device rd;
 	default_random_engine eng(rd());
 	uniform_int_distribution<int>distr(0, 2147483647);
@@ -250,33 +277,45 @@ void RandomNumber(int arr[],int len) {
 	return;
 }
 
-void Menu(){
-	cout<<"**                排序算法比较                   **"<< endl;
-	cout<<"=================================================="<< endl;
-	cout<<"**                1 --- 冒泡排序                 **"<< endl;
-	cout<<"**                2 --- 选择排序                 **"<< endl;
-	cout<<"**                3 --- 直接插入排序             **"<< endl;
-	cout<<"**                4 --- 布尔排序                 **"<< endl;
-	cout<<"**                5 --- 快速排序                 **"<< endl;
-	cout<<"**                6 --- 堆排序                   **"<< endl;
-	cout<<"**                7 --- 归并排序                 **"<< endl;
-	cout<<"**                8 --- 基数排序                 **"<< endl;
-	cout<<"**                9 --- 退出程序                 **"<< endl;
-	cout<<"=================================================="<< endl;
+void Menu() {
+	cout << "**                排序算法比较                   **" << endl;
+	cout << "==================================================" << endl;
+	cout << "**                1 --- 冒泡排序                 **" << endl;
+	cout << "**                2 --- 选择排序                 **" << endl;
+	cout << "**                3 --- 直接插入排序             **" << endl;
+	cout << "**                4 --- 希尔排序                 **" << endl;
+	cout << "**                5 --- 快速排序                 **" << endl;
+	cout << "**                6 --- 堆排序                   **" << endl;
+	cout << "**                7 --- 归并排序                 **" << endl;
+	cout << "**                8 --- 基数排序                 **" << endl;
+	cout << "**                9 --- 退出程序                 **" << endl;
+	cout << "==================================================" << endl;
 }
 
 int main() {
 	system("chcp 65001");
 	Menu();
 	int num;
-	cout<<"请输入要产生的随机数的个数:";
-	cin>>num;
-	int *arr= new int[num];
-	RandomNumber(arr,num);
-	BubbleSort(arr,num);
-	for(int i= 0; i < num; i++){
-		cout<<arr[i]<<" ";
-	}
+	cout << "请输入要产生的随机数的个数:";
+	cin >> num;
+	int* arr = new int[num];
+	RandomNumber(arr, num);
+	clock_t start, finish;
+	start = clock();
+	//ImprovedBubbleSort(arr,num);//冒泡排序
+	//SelectSort(arr, num);//选择排序
+	//InsertSort(arr, num);//直接插入排序
+	//ShellSort(arr, num);//希尔排序
+	//QuickSort(0, num, arr);//快速排序
+	//HeapSort(arr, num);//堆排序
+	MergeSort(arr, 0, num-1);
+	//RadixSort(arr, num);
+	finish = clock();
+	double deltaTime = (double)((double)finish - (double)start) / CLOCKS_PER_SEC;
+	std::cout << deltaTime << endl;
+	/*for (int i = 0; i < num; i++) {
+		cout <<i+1<<" "<< arr[i] << endl;
+	}*/
+	delete[]arr;
 	return 0;
-	system("pause");
 }
